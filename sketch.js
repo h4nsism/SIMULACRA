@@ -263,9 +263,9 @@ function setup() {
   scripts[8][0] = "아직도..."
   scripts[8][1] = "아직도..."
   scripts[8][2] = "저희를 믿어주시는군요."
-  scripts[8][3] = "이 맵 어딘가에 당근을 흔들고 있는 개발자가 있습니다."
-  scripts[8][4] = "물론 거짓말입니다. 그런 건 없어요..."
-  scripts[8][5] = "맨홀 이스터에그도 이게 마지막입니다."
+  scripts[8][3] = "사실 맨홀에는... 진짜 아무것도 없습니다."
+  scripts[8][4] = "그렇지만 이런 자세는 좋네요."
+  scripts[8][5] = "앞으로도 많은 걸 의심하시길 바랍니다."
   scripts[8][6] = "그럼 안녕히..."
   scripts[8][7] = ""
   scripts[9] = [];
@@ -591,7 +591,7 @@ function keyPressed() {
          }
        }
 
-       if(keyCode == 32 && spacePress >=4 && spacePress <= 5 && !popup){
+       if(keyCode == 32 && spacePress >=2 && spacePress <= 3 && !popup){
          textNum = 6;
          popup = true;
        }
@@ -2161,6 +2161,7 @@ function stage_21() {
     shadow.position(brights[stage]);
     stageSet = false;
     items[9] = true
+    main.y = 270
     npc[21] = new NPC_21();
 
 }
