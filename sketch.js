@@ -1,4 +1,4 @@
-let stage = 24; // switch-case 용
+let stage = -1; // switch-case 용
 
 let main; // 클래스
 let shadow; // 클래스
@@ -21,8 +21,6 @@ let popup = false; // 팝업 관련 제어자
 let textNum = 0; // 텍스트 변수
 
 let shadows = []; // shadow 클래스에 활용되는 배열
-
-let char_hp = 5; // 나중에 main 클래스의 체력으로 대체
 let backgrounds = []; // 전체에 적용할 배경스프라이트 배열
 
 let cleared = []; // 클리어 방식 저장
@@ -202,9 +200,17 @@ function setup() {
   textFont(font)
     //대사장
     scripts[0] = [];
-  scripts[0][0] = "천둥번개가 친다.";
-  scripts[0][1] = "그림자가 너무 무섭다. 밖으로 나가야겠다.";
-  scripts[0][2] = "";
+  scripts[0][0] = "[그림자(Shadow)란 성격의 부정적인 부분을 말하며 개인이 숨기고 싶은 모든 불쾌한 요소들을 모은 것이다.]";
+  scripts[0][1] = "[융은 모든 사람에게 그림자가 있다는 것을 강조했다.]";
+  scripts[0][2] = "[실재하는 모든 것은 그림자를 드리우는데, 자아와 그림자의 관계는 빛과 그늘의 관계와 같으며,]";
+  scripts[0][3] = "[바로 이 그림자가 우리를 인간으로 만들어 준다.]";
+  scripts[0][4] = "[그림자는 완전히 없앨 수 있는 것이 아니기 때문에]";
+  scripts[0][5] = "[최선의 방법은 그림자와 화해하는 것이다.]";
+  scripts[0][6] = "[그림자를 없애려는 시도는 해서도 안 되는 것이다.]";
+  scripts[0][7] = "...";
+  scripts[0][8] = "천둥이 친다. 그림자가 너무 크다. 두렵다.";
+  scripts[0][9] = "밖으로 나가자.";
+  scripts[0][10] = "";
   scripts[1] = [];
   scripts[1][0] = "들판 끝까지 가보자.";
   scripts[1][1] = "비는... 맞을 만 한 것 같다...";
@@ -361,7 +367,11 @@ function setup() {
   scripts[26][19] = "그림자가 나를 덮었다.";
   scripts[26][20] = "[이제 무섭고 불안해 할 필요 없어.]";
   scripts[26][21] = "나는 이제 자유롭다.";
-  scripts[26][22] = "";
+  scripts[26][22] = "[BAD END]";
+  scripts[26][23] = "[맵 곳곳에 숨겨진 요소가 더 있습니다.]";
+  scripts[26][24] = "[다음에는 더 나아갈 수 있을까요?]";
+  scripts[26][25] = "";
+
   scripts[27] = [];
   scripts[27][0] = "the End...";
 
@@ -372,8 +382,9 @@ function setup() {
   shadow.shadowSetup();
   shadow.offset();
 
-  for(let i = 0; i < 24; i++){
+  for(let i = 0; i < 27; i++){
     cleared[i] = false // 기본값=false, 최초방문시 true, 특수조건시 int
+    items[i] = false
   }
 
   for(let i = 0; i<300; i++){
@@ -510,6 +521,39 @@ function draw() {
     }
 
     if(popup){
+      if(stage == 26){
+        endscript = true
+        if(cleared[26]){
+          ending = 2
+        }
+        else if (!cleared[26]){
+          ending = 1
+        }
+
+        if (frameCount % 20 == 19) {
+          boss.offset();
+        }
+        boss.shadowSet();
+        image(backgrounds[25][0], 0, 0, 720, 480); // 배경
+      
+        // 대충 보스 배경 이미지
+        //bossAction()
+        //image(backgrounds[25][3],60,60,620,370) // 보스 스프라이트
+        boss.bgArmD(); // 보스 뒤 팔 스프라이트
+      
+        image(backgrounds[25][1], 0, 0, 720, 480); // 바닥
+      
+        boss.bgSideD(40, 20);
+        boss.bgSideD(50, 20);
+        boss.bgSideD(60, 30);
+        boss.bgSideD(660, 20);
+        boss.bgSideD(670, 30);
+        boss.bgSideD(680, 20);
+        image(sprites[0][6], 330, 290, 60, 120)
+        image(backgrounds[25][2], 0, 0, 720, 480); // 앞풀
+      }
+
+
       textBox()
     }
 
@@ -519,7 +563,7 @@ function draw() {
  // text("text " + textNum, 500, 140);
   stageEnd(); // 플레이어가 오른쪽 끝까지 가면 stage 변화, 플레이어 x값 초기화
   fade();
-  develop(); // 개발용. 나중에 삭제
+  //develop(); // 개발용. 나중에 삭제
 }
 
 function keyPressed() {
@@ -581,10 +625,6 @@ function keyPressed() {
           textNum = 0
           popup = true
         }
-      }
-
-      if(keyCode == 32 && main.x <=355 && main.x >= 255 && main.y >= 360 && main.y <= 430){
-        toggle_06 = !toggle_06;
       }
 
         if(keyCode == 32 && detectLoca(305,395,50,35) && npc[6].thank && !popup){
@@ -651,7 +691,7 @@ function keyPressed() {
       break;
   
     case 15:
-      if(main.y <= 200-stage15_y && keyCode == 38 && !popup && !cleared[stage]){
+      if(main.y <= 200-stage15_y && keyCode == 54 && !popup && !cleared[stage]){
         cleared[stage] = true;
         textNum = 11;
         popup = true;
@@ -765,6 +805,30 @@ function mousePressed() {}
 
 function intro(){
   image(logo, 0, 0, 720, 480);
+main = new Main();
+shadow = new Shadow();
+shadow.shadowSetup();
+shadow.offset();
+
+stop = false;
+stageSet = true;
+canMove = true;
+bossStart = false;
+proceed = true;
+
+toggle = false;
+
+fadeOn = false;
+timeOut = 40;
+popup = false;
+textNum = 0;
+cleared = [];
+items = [];
+  for(let i = 0; i < 27; i++){
+    cleared[i] = false // 기본값=false, 최초방문시 true, 특수조건시 int
+    items[i] = false
+  }
+
 }
 
 
@@ -935,6 +999,16 @@ function stage_02() {
   if(rain[i][1] >= 480){
     rain[i][1] = rain[i][1] -480;
   }
+}
+
+if(main.x >= 40 && main.x <= 100 && main.y >= 225){
+  push();
+  stroke(0)
+  strokeWeight(4)
+  fill(255);
+  textSize(50);
+  text("!", 80,200);
+  pop();
 }
 
 
@@ -1161,6 +1235,16 @@ function stage_06() {
   }
   else{
     image(sprites[6][4], 0, 0, 720, 480);
+  }
+  
+  if(!items[6] && npc[6].thank){
+    push();
+    stroke(0)
+    strokeWeight(4)
+    fill(255);
+    textSize(50);
+    text("!", 320,400);
+    pop();
   }
 
 
@@ -1654,6 +1738,16 @@ function stage_14() {
   image(backgrounds[stage][2], 0, -stage14_y, 720, 960);
   image(backgrounds[stage][7], 0, 200-stage14_y, 720, 960);
 
+  if(preToggle && stage14_y>300 && stage14_y<370){
+    push();
+    stroke(0)
+    strokeWeight(4)
+    fill(255);
+    textSize(50);
+    text("!", main.x + 30,220);
+    pop();
+  }
+
 }
 
 // 대충... 불 켜기.
@@ -1734,6 +1828,17 @@ function stage_15() {
 
   main.fixloca(); // canMove 오류 시 기존좌표로 돌아가고
   main.display(); // 출력
+
+  if(main.y >= 300-stage15_y && main.y <= 500-stage15_y){
+    push();
+    stroke(0)
+    strokeWeight(4)
+    fill(255);
+    textSize(50);
+    text("!", main.x + 30,220);
+    pop();
+  }
+
 
 }
 
@@ -2091,13 +2196,6 @@ function stage_21() {
     items[21]= true
   }
 
-
-  // 개발자 bool 확인용
-  textSize(10)
-  text(npc[21].thankA, 100, 100)
-  text(npc[21].thankB, 100, 110)
-  text(cleared[21], 100, 130)
-  
  
   stopShadow(); // f키 눌러서 stop이 되면 그림자 그 자리에 고정
   main.move();
@@ -2299,7 +2397,7 @@ function bossSetup() {
         lighten++;
       }
     }
-    timeOut = 480;
+    timeOut = 120;
     fadeOn = true;
     fade();
     boss = new Boss(lighten); // 보스 클래스 생성
@@ -2309,7 +2407,8 @@ function bossSetup() {
   }
 }
 
-let leftMove = false; 
+let ending = false
+let endscript = false
 let imageX = 300;
 function bossDisplay() {
 
@@ -2336,119 +2435,93 @@ function bossDisplay() {
 
   
   if (items[6] == true && items[11] == true && items[21] == true){
-    cleared[26] == true;
-    if (cleared[26] == false){
-      cleared[26] = true
-    }
+    cleared[26] = true;
+
   }
+  
 
-
-  cleared[26] = false;
   if(!bossStart && timeOut == 0){
     if(cleared[26]){
       textNum = 5;
       popup = true;
-      image(backgrounds[25][0], 0, 0, 720, 480); // 배경
-      image(backgrounds[25][1], 0, 0, 720, 480); // 바닥
-    } else{
+    } else if(!cleared[26]){
       textNum = 15;
       popup = true;
+      
+
     }
-    console.log(textNum);
   }
 
-  if(textNum == 22){
-    leftMove = true;
-  }
-
-  if(!bossStart && !popup && cleared[26]){
-    image(backgrounds[25][0], 0, 0, 720, 480); // 배경
-    image(backgrounds[25][1], 0, 0, 720, 480); // 바닥
-  }
 
 
     main.move(); // 이전좌표 저장 + 일단 이동
-    if (!cleared[26]){
       main.canMove(80, 240, 640, 400); // 검사
-    } else {
-      main.canMove(80, 240, 720, 400);
-    }
+
 
 
   fill(225)
-  text(cleared[26], 100, 100)
-  text(items[6], 100, 110)
-  text(items[9], 100, 120)
-  text(items[11], 100, 130)
-  text(items[21], 100, 140)
 
   main.fixloca(); // canMove 오류 시 기존좌표로 돌아가고
   main.display(); // 출력
 
-  if(!bossStart && !cleared[26] && !popup && timeOut == 0 && leftMove){
+  if(ending == 1 && endscript && !popup){
     image(backgrounds[25][0], 0, 0, 720, 480); // 배경
     image(backgrounds[25][1], 0, 0, 720, 480); // 바닥
-    imageX -= 1;
+    imageX -= 2;
     if(frameCount%20< 10){
-      image(sprites[0][1], imageX, 350,50,100);
+      image(sprites[0][1], imageX, 290,60,120);
     } else{
-      image(sprites[0][2], imageX, 350,50,100);
+      image(sprites[0][2], imageX, 290,60,120);
     }
   
     if(imageX <= 0){
       stage = -1;
     }
+    background(0, (imageX-250)*5)
   }
+
+  if(ending == 2 && endscript && !popup){
+    image(backgrounds[25][0], 0, 0, 720, 480); // 배경
+    image(backgrounds[25][1], 0, 0, 720, 480); // 바닥
+    imageX += 2;
+    if(frameCount%20< 10){
+      image(sprites[0][4], imageX, 290,60,120);
+    } else{
+      image(sprites[0][5], imageX, 290,60,120);
+    }
+  
+    if(imageX >= 720){
+      stage = 27;
+      imageX = 0
+    }
+    background(0,500-(imageX-250)*5)
+  }
+
+  
   
 
   image(backgrounds[25][2], 0, 0, 720, 480); // 앞풀
 }
 
-
 function ending_1(){
-  if (stageSet) {
-    brights[stage] = new Light(600, 50); // 임의로 가로등을 이 위치에 설치
-    shadow.position(brights[stage]);
-    stageSet = false;
-    count = frameCount;
-    
-    if(timeOut == 0){
-        textNum = 0;
-        popup = true
-    }
-    
+  image(backgrounds[0], 0, 0, 720, 480);
+  imageX += 2;
+  if(frameCount%20< 10){
+    image(sprites[0][4], imageX, 290,60,120);
+  } else{
+    image(sprites[0][5], imageX, 290,60,120);
   }
-  
-  image(backgrounds[stage], 0, 0, 720, 480);
+  background(0,250-imageX*2)
 
-  if(frameCount%100 == 0){
-    thunderTime = int(random(0,100));
+  if(imageX == 200){
+    stage = -1
   }
-  if(frameCount%100 >= thunderTime && frameCount%100 <= thunderTime + 4){
-    fill(255,100);
-    rect(0,0,720,480);
-    brights[stage].x = 600;
-    brights[stage].y = -1000;
-  }
-
-    //brights[stage].display(main);
-    shadow.position(brights[stage]);
-    shadow.shadowSet();
-    shadow.offset(brights[stage]);
-    shadow.display(main); // 이 맵에서는 그림자 정지가 안된다.
-
-    main.move(); // 이전좌표 저장 + 일단 이동
-    main.canMove(0, 270, 720, 480); // 검사
-    main.fixloca(); // canMove 오류 시 기존좌표로 돌아가고
-    main.display(); // 출력
-
-    if (frameCount - count == 500){
-      stage = -1;
-    }
 }
 
 
-// 범용 function
+
+
+// 범용
 function stopShadow() {
   // 그림자 멈추기 / 디스플레이
   if (stop) {
@@ -2457,11 +2530,6 @@ function stopShadow() {
     shadow.display(main);
   }
 }
-
-
-
-
-
 function stageEnd() {
   // 맵이동
   if (stage >= 0) {
@@ -2494,6 +2562,7 @@ function textBox(){
     text(scripts[stage][textNum],180,50,400,100)
     pop()
 }
+
 
 function calculateAngle(x1, y1, x2, y2) {
   // 각도계산.
@@ -2532,37 +2601,27 @@ function fade() {
   }
 }
 
-//개발자용
-// function bossTester() {
-//   // 일단 임의로 지금까지의 클리어값 설정
-//   cleared[0] = int(random(0, 3));
-//   // TV - 0 : 도와주지 않았다. / 1: 사람을 먹었다. / 2: TV 획득
-//   cleared[1] = int(random(0, 2));
-//   // 강물 - 0: 그냥 지나갔다. / 1: 강물을 마시게 했다.
-//   cleared[2] = int(random(0, 2));
-//   // 도색공 - 0: 그림자를 작게 해서 지나갔다. / 1: 도색공을 먹었다 = 브러쉬 획득
-//   cleared[3] = int(random(0, 2));
-//   // 별을 보고 싶어 - 0: 지나쳤다. / 1: 아이를 먹었다. / 2: TV를 썼다. / 3: 페인트로 별을 그렸다.
-//   //cleared[4] = int(random(0, 2))
-//}
-function develop() {
-  // 격자
-  // if (stop) {
-  //   const gridSize = 40; // Size of each grid cell
-  //   const rows = height / gridSize; // Number of rows based on screen height
-  //   const cols = width / gridSize; // Number of columns based on screen width
 
-  //   // Draw the grid
-  //   for (let x = 0; x < width; x += gridSize) {
-  //     for (let y = 0; y < height; y += gridSize) {
-  //       push();
-  //       stroke(255, 0, 0, 10); // Set stroke color to black
-  //       noFill(); // Disable fill
-  //       rect(x, y, gridSize, gridSize); // Draw a rectangle for each grid cell
-  //       pop();
-  //     }
-  //   }
-  //}
+
+
+function develop() {
+  격자
+  if (stop) {
+    const gridSize = 40; // Size of each grid cell
+    const rows = height / gridSize; // Number of rows based on screen height
+    const cols = width / gridSize; // Number of columns based on screen width
+
+    // Draw the grid
+    for (let x = 0; x < width; x += gridSize) {
+      for (let y = 0; y < height; y += gridSize) {
+        push();
+        stroke(255, 0, 0, 10); // Set stroke color to black
+        noFill(); // Disable fill
+        rect(x, y, gridSize, gridSize); // Draw a rectangle for each grid cell
+        pop();
+      }
+    }
+  }
 
   push();
   textAlign(RIGHT);
