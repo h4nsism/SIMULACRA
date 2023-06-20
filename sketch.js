@@ -191,6 +191,7 @@ sprites[6][2]= loadImage("assets/item_06_0.png")
 sprites[6][3]= loadImage("assets/item_06_1.png")
 sprites[6][4]= loadImage("assets/item_06_2.png")
 sprites[21][0] = loadImage("assets/npc_21_0.png"); // 잠자는 이미지다.
+sprites[27] = loadImage("assets/icon_0.png");
 
 textBar = loadImage("assets/text.png");
 }
@@ -564,6 +565,25 @@ function draw() {
   stageEnd(); // 플레이어가 오른쪽 끝까지 가면 stage 변화, 플레이어 x값 초기화
   fade();
   //develop(); // 개발용. 나중에 삭제
+
+  image(sprites[27], 670, 0,50,50);
+  
+  if(stage == 2 || stage == 6 ||stage == 9 || stage == 13 || stage == 21){
+    push()
+    strokeWeight(3)
+    if(stop){
+      fill(255)
+      stroke(0)
+    }
+    else{
+      fill(0,130)
+      stroke(0)
+    }
+    textSize(30)
+    text("FIX(f)", 600,35)
+    pop()
+  }
+
 }
 function keyPressed() {
   // basic function. 마지막으로 클릭한 키 저장
@@ -801,7 +821,11 @@ function keyPressed() {
 
 }
 
-function mousePressed() {}
+function mousePressed() {
+  if(mouseX > 670 && mouseX<720 && mouseY>0 && mouseY<50){
+    stage = -1
+  }
+}
 
 function intro(){
   image(logo, 0, 0, 720, 480);
