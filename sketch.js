@@ -645,6 +645,7 @@ function keyPressed() {
       if(keyCode == 32 && main.x <=130 && main.y >= 360 && !popup){
         if(main.preY <= 290 && main.preX >= 410 && main.preX <= 445 && stop && !npc[6].thank){
           textNum = 4
+          stop = false;
           popup = true
         }
         else if(!npc[6].thank){
