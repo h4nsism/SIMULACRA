@@ -183,7 +183,7 @@ for (let i = 0; i < 25; i++) {
 }
 for (let j = 0; j < 12; j++) {
   // 주인공 스프라이트
-  sprites[0][j] = loadImage("assets/mainsprite_" + j + ".PNG");
+  sprites[0][j] = loadImage("assets/mainsprite_" + j + ".png");
 }
 sprites[6][0] = loadImage("assets/npc_06_0.png"); // 깨어있는
 sprites[6][1] = loadImage("assets/npc_06_1.png"); // 잠자는 이미지다.
