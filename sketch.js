@@ -565,7 +565,6 @@ function draw() {
   fade();
   //develop(); // 개발용. 나중에 삭제
 }
-
 function keyPressed() {
   // basic function. 마지막으로 클릭한 키 저장
   lastKeyPressed = keyCode;
@@ -629,6 +628,7 @@ function keyPressed() {
 
         if(keyCode == 32 && detectLoca(305,395,50,35) && npc[6].thank && !popup){
           items[6] = true;
+          cleared[6] = 2
           stage_06_bool = false;
           textNum = 9
           popup = true
@@ -740,7 +740,7 @@ function keyPressed() {
       }
       }
 
-      if(keyCode == 32 && detectLoca(355,410,60,40)  && !popup){ // tv트리거
+      if(cleared[6] == 2 && keyCode == 32 && detectLoca(355,410,60,40)  && !popup){ // tv트리거
         if(items[6]){
           textNum = 9
           popup = true
@@ -1041,13 +1041,13 @@ function stage_03() {
 let stage04_x = 0;
 function stage_04() {
   if (stageSet) {
-    brights[stage] = new Light(600, 50); // 임의로 가로등을 이 위치에 설치
+    brights[stage] = new Light(600, 500); // 임의로 가로등을 이 위치에 설치
     shadow.position(brights[stage]);
     stageSet = false;
   }
 
   image(backgrounds[stage][0], -stage04_x, 0, 1440, 480);
-
+  brights[stage].x = 960-stage04_x
   //brights[stage].display(main);
   shadow.position(brights[stage]);
   shadow.shadowSet();
@@ -1219,7 +1219,7 @@ function stage_06() {
   main.display(); // 출력
 
   if (main.x <= 590 && main.x >= 570 && main.y >= 420) {
-    if (cleared[6] == 1) {
+    if (cleared[6] >= 1) {
       stage++;
       proceed = true;
     } else if (cleared[6] == false) {
@@ -2153,7 +2153,6 @@ function stage_20() {
   main.fixloca(); // canMove 오류 시 기존좌표로 돌아가고
   main.display(); // 출력
 }
-
 let stage_21_bool = false;
 function stage_21() {
   if (stageSet) {
@@ -2170,7 +2169,7 @@ function stage_21() {
   image(backgrounds[20][0], 0, 0, 720, 480);
   image(backgrounds[stage][0], 0, 0, 720, 480);
   image(backgrounds[stage][1], 0, 0, 720, 480);
-  if(items[6]){
+  if(items[6] || cleared[6] != 2){
     image(sprites[6][4], 0, 0, 720, 480);
   }
 
@@ -2211,7 +2210,7 @@ function stage_21() {
     npc[21].display();
   }
 
-  if(!items[6]){
+  if(!items[6] && cleared[6] == 2){
     image(sprites[6][3], 0, 0, 720, 480);
   }
 
@@ -2222,6 +2221,24 @@ function stage_21() {
     image(backgrounds[stage][4], 30, 0, 750, 480);
   }
 
+
+
+
+  if( !items[6] &&
+    ((main.preY <= 370 && main.preX >= 370 && main.preX <= 420)
+  || (main.y <= 290 && main.x >= 370 && main.x <= 420) || stage_21_bool) && !cleared[21]){
+    push();
+    stroke(0)
+    strokeWeight(4)
+    fill(255);
+    textSize(50);
+    text("!", 410,300);
+    pop();
+  }
+
+
+
+}
 
 
 
