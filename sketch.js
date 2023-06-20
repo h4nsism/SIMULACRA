@@ -584,7 +584,7 @@ function draw() {
       stroke(0)
     }
     textSize(30)
-    text("FIX(f)", 600,35)
+    text("FIX(f)", 610,35)
     pop()
   }
   
@@ -749,7 +749,7 @@ function keyPressed() {
   
     case 21:
       if(keyCode == 32 && detectLoca(395,320,30,30) && !items[21] && !popup){
-        if(!items[6] && !popup && // tv클리어
+        if(!items[6] && !popup && cleared[6]==2 && // tv클리어
         ((main.preY <= 370 && main.preX >= 370 && main.preX <= 420)
       || (main.y <= 290 && main.x >= 370 && main.x <= 420)) && !cleared[21]){
         textNum = 3
@@ -859,10 +859,73 @@ popup = false;
 textNum = 0;
 cleared = [];
 items = [];
+
   for(let i = 0; i < 27; i++){
     cleared[i] = false // 기본값=false, 최초방문시 true, 특수조건시 int
     items[i] = false
   }
+
+  
+ stage01_x =0 
+ stage04_x =0;
+
+ stage_06_bool = true;
+ toggle_06 = false;
+ 
+
+ stage08_x = 0;
+
+
+ spacePress = 0;
+ fPress = 0;
+
+
+ stage08_x = 0;
+
+
+ stage_09_bool = false // 검문 걸렸다.
+
+
+ stage10_x = 0;
+
+
+ eat = false; // space bar
+ canEat = false; // 삼키기 가능
+
+ stage12_x = 0;
+
+
+
+ thunderPos = false;
+ preStop = false;
+
+ stage14_y = 480;
+ preToggle = false;
+
+ stage15_y = 480;
+ doorPress = false;
+
+ stage16_x = 0;
+
+
+ stage18_y = 480;
+
+ stage19_y = 480;
+
+ stage20_x = 0;
+
+ stage_21_bool = false;
+
+ stage22_x = 0;
+
+ stage23_x = 0;
+
+ stage24_x = 0;
+
+
+ ending = false
+ endscript = false
+ imageX = 300;
 
 }
 
@@ -1073,6 +1136,7 @@ function stage_03() {
   image(backgrounds[stage][1], 0, 0, 720, 480);
 }
 
+
 let stage04_x = 0;
 function stage_04() {
   if (stageSet) {
@@ -1106,7 +1170,6 @@ function stage_04() {
   main.display(); // 출력
   image(backgrounds[stage][1], -stage04_x, 0, 1440, 480);
 }
-
 
 function stage_05() {
   if (stageSet) {
@@ -2188,6 +2251,7 @@ function stage_20() {
   main.fixloca(); // canMove 오류 시 기존좌표로 돌아가고
   main.display(); // 출력
 }
+
 let stage_21_bool = false;
 function stage_21() {
   if (stageSet) {
@@ -2216,7 +2280,7 @@ function stage_21() {
     brights[stage].x = 200
     brights[stage].y = 800
   }
-  else{
+  else if ( items[6] || cleared[6] != 2){
     brights[stage].x = 550
     brights[stage].y = 200
   }
@@ -2273,21 +2337,6 @@ function stage_21() {
 
 
 
-
-
-
-
-  if( !items[6] &&
-    ((main.preY <= 370 && main.preX >= 370 && main.preX <= 420)
-  || (main.y <= 290 && main.x >= 370 && main.x <= 420) || stage_21_bool) && !cleared[21]){
-    push();
-    stroke(0)
-    strokeWeight(4)
-    fill(255);
-    textSize(50);
-    text("!", 410,300);
-    pop();
-  }
 }
 
 let stage22_x = 0;
