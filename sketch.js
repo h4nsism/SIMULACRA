@@ -192,7 +192,6 @@ sprites[6][3]= loadImage("assets/item_06_1.png")
 sprites[6][4]= loadImage("assets/item_06_2.png")
 sprites[21][0] = loadImage("assets/npc_21_0.png"); // 잠자는 이미지다.
 sprites[27] = loadImage("assets/icon_0.png");
-
 textBar = loadImage("assets/text.png");
 }
 
@@ -519,6 +518,7 @@ function draw() {
               break;
 
           }
+        
     }
 
     if(popup){
@@ -571,7 +571,7 @@ function draw() {
   if(stage == 2 || stage == 6 ||stage == 9 || stage == 13 || stage == 21){
     push()
     strokeWeight(3)
-    if(stop){
+    if(그만){
       fill(255)
       stroke(0)
     }
@@ -583,8 +583,11 @@ function draw() {
     text("FIX(f)", 600,35)
     pop()
   }
+  
 
 }
+
+
 function keyPressed() {
   // basic function. 마지막으로 클릭한 키 저장
   lastKeyPressed = keyCode;
@@ -2262,7 +2265,7 @@ function stage_21() {
 
 
 
-}
+
 
 
 
@@ -2277,9 +2280,6 @@ function stage_21() {
     text("!", 410,300);
     pop();
   }
-
-
-
 }
 
 let stage22_x = 0;
