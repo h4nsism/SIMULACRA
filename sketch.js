@@ -584,7 +584,7 @@ function draw() {
       stroke(0)
     }
     textSize(30)
-    text("FIX(f)", 610,35)
+    text("FIX(f)", 630,35)
     pop()
   }
   
