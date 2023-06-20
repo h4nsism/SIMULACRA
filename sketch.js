@@ -571,7 +571,7 @@ function draw() {
   if(stage == 2 || stage == 6 ||stage == 9 || stage == 13 || stage == 21){
     push()
     strokeWeight(3)
-    if(그만){
+    if(stop){
       fill(255)
       stroke(0)
     }
