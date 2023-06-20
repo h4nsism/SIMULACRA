@@ -2266,6 +2266,13 @@ function stage_21() {
 
 
   image(backgrounds[20][0], 0, 0, 720, 480);
+  
+    if(!items[6] && !popup && cleared[6]==2 && // tv클리어
+    ((main.preY <= 370 && main.preX >= 370 && main.preX <= 420)
+  || (main.y <= 290 && main.x >= 370 && main.x <= 420))){
+    image(backgrounds[13][5], 0, 0, 720, 480);
+    }
+  
   image(backgrounds[stage][0], 0, 0, 720, 480);
   image(backgrounds[stage][1], 0, 0, 720, 480);
   if(items[6] || cleared[6] != 2){
@@ -2704,7 +2711,7 @@ function fade() {
 
 
 function develop() {
-  격자
+  //격자
   if (stop) {
     const gridSize = 40; // Size of each grid cell
     const rows = height / gridSize; // Number of rows based on screen height
@@ -2731,3 +2738,4 @@ function develop() {
   text("stage: " + stage, 700, 80);
   pop();
 }
+
